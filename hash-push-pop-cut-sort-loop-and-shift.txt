@@ -1,0 +1,69 @@
+[functest]
+exten => s,1,NoOp()
+same => n,Verbose(1,)
+same => n,Verbose(1,----------HASHES------------)
+same => n,Set(HASH(myhash,fruit)=Apple)
+same => n,Set(HASH(myhash,name)=Bertie)
+same => n,Set(HASH(myhash,drink)=tea)
+same => n,Set(HASH(myhash,food)=chips)
+same => n,Set(HASH(myhash,car)=Ford)
+same => n,Set(hashkeys=${HASHKEYS(myhash)})
+same => n,Set(hashvalues=${HASH(myhash)})
+same => n,Verbose(1,HASHKEYS(myhash) are "${hashkeys}" and "HASH(myhash)" is "${hashvalues}" - note, you can't sort these)
+
+same => n,Verbose(1,HASH(myhash,name) is ${HASH(myhash,name)})
+
+same => n,Verbose(1,)
+same => n,Verbose(1,----------PUSH,POP and WHILE----)
+
+same => n,While($["${SET(mytmpvar=${SHIFT(hashkeys)})}" != ""])
+same => n,Set(PUSH(mytestpairs)=${mytmpvar}:${HASH(myhash,${mytmpvar})})
+same => n,EndWhile
+same => n,Verbose(1,mytestpairs is ${mytestpairs})
+
+same => n,Verbose(1,)
+same => n,Verbose(1,----------SORT sorts the KEY based on the VALUE----)
+
+same => n,Set(mytestpairs=${SORT(${mytestpairs})});
+same => n,Verbose(1,mytestpairs sorted is ${mytestpairs})
+
+same => n,Verbose(1,)
+same => n,Verbose(1,----------ARRAYS------------)
+same => n,Set(ARRAY(arrayone,arraytwo)=item1,item2)
+same => n,Verbose(1,given ARRAY(arrayone,arraytwo)=item1,item2 then arrayone is ${arrayone})
+
+same => n,Verbose(1,)
+same => n,Verbose(1,------VARIABLE & STRING MANIPULATION------------)
+same => n,Set(myvar=${hashvalues})
+same => n,Set(mycount=${FIELDQTY(myvar,\,)});escape the comma
+same => n,Verbose(1,FIELDQTY(myvar,\,) says "${myvar}" has ${mycount} fields which we'll store in mycount var)    
+same => n,Verbose(1,LEN(myvar) says the length of "${myvar}" is ${LEN(${myvar})})
+same => n,Verbose(1,CUT(myvar,\,,{mycount}) means the last word of "${myvar}" is "${CUT(myvar,\,,${mycount})}") 
+same => n,Verbose(1,CUT(myvar,\,,1) means the first word of "${myvar}" is "${CUT(myvar,\,,1)}")   
+same => n,Verbose(1,CUT(myvar,\,,1-3&5) means the 1st-3rd and 5th words of "${myvar}" is "${CUT(myvar,\,,1-3&5)}") 
+
+same => n,Verbose(1,myvar:3 means the first 3 letters of "${myvar}" is "${myvar:0:3}") 
+
+
+same => n,While($["${SET(mytmpvar=${POP(myvar)})}" != ""])
+same => n,Set(PUSH(mynewvar)=${mytmpvar})
+same => n,EndWhile
+
+same => n,Verbose(1,Now myvar is "${myvar}" and mynewvar is "${mynewvar}")
+
+same => n,While($["${SET(mytmpvar=${SHIFT(mynewvar)})}" != ""])
+same => n,Set(PUSH(myvar)=${mytmpvar})
+same => n,EndWhile
+
+same => n,Verbose(1,Now myvar is "${myvar}" and mynewvar is "${mynewvar}")
+
+same => n,While($["${mycount}" != "0"])
+same => n,Set(PUSH(mynewvar)=${CUT(myvar,\,,${mycount})})
+same => n,Verbose(1,counter is ${mycount} and current item is ${CUT(myvar,\,,${mycount})})
+same => n,Wait(0.5)
+same => n,Set(mycount=${DEC(mycount)})
+same => n,EndWhile
+
+same => n,Verbose(1,Now mynewvar is "${mynewvar}" and myvar is still "${myvar}")
+
+same => n,Hangup()

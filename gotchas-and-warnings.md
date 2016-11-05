@@ -1,12 +1,12 @@
 ### Endwhile must be "seen" once before you can break out of a loop!
 
-From a note (not the docs)
+From [an issue tracker comment](https://issues.asterisk.org/jira/browse/ASTERISK-25525?focusedCommentId=228165&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-228165) (not the docs)
 
 > Usage rules:
-> While marks the start of a while loop in the dialplan as well as the condition to keep executing the loop. For the While to terminate the loop, the loop's EndWhile must have been executed before. This implies that the while condition must have been true at least once.
-> EndWhile marks the end of the while loop.
-> ExitWhile breaks out of the while loop and jumps to the loop's EndWhile location. For ExitWhile to know where to go, the loop's EndWhile must have been executed before.
-> ContinueWhile jumps to the current while loop's While location.
+* While marks the start of a while loop in the dialplan as well as the condition to keep executing the loop. For the While to terminate the loop, the loop's EndWhile must have been executed before. This implies that the while condition must have been true at least once.
+* EndWhile marks the end of the while loop.
+* ExitWhile breaks out of the while loop and jumps to the loop's EndWhile location. For ExitWhile to know where to go, the loop's EndWhile must have been executed before.
+* ContinueWhile jumps to the current while loop's While location.
 
 If breaking out of the middle of a loop, you MUST ensure the loop is properly exited or everything will turn to custard.
 

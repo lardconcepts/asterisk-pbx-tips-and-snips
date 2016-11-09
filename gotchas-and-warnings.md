@@ -94,4 +94,8 @@ The workaround is
      same => n,Set(unfilteredfeat2=${FILE(${featurefile},0,1,l,u)})
      same => n,Set(feature2=${SHIFT(unfilteredfeat2)})
 
+### Channel "optimization" will ruin your channel settings!
 
+See https://wiki.asterisk.org/wiki/display/AST/Local+Channel+Modifiers and https://wiki.asterisk.org/wiki/display/AST/Local+Channel+Optimization
+
+tl;dr: add a / at the end of the dial string, like exten => 4,1,Dial(Local/2@services**/n**)

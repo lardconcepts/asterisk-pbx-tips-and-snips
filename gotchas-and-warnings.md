@@ -98,4 +98,4 @@ The workaround is
 
 See https://wiki.asterisk.org/wiki/display/AST/Local+Channel+Modifiers and https://wiki.asterisk.org/wiki/display/AST/Local+Channel+Optimization
 
-tl;dr: add a / at the end of the dial string, like exten => 4,1,Dial(Local/2@services**/n**)
+tl;dr: add a /n at the end of the dial string, like exten => 4,1,Dial(Local/2@services**/n**)
